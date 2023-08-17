@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado do DETRAN</title>
+    <style>
+        body {
+            background-color: yellow;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .question-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .question {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question h1 {
+            margin-bottom: 10px;
+        }
+
+        #answer-options li {
+            list-style-type: none;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        #answer-options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        #answer-options li:nth-child(odd) {
+            background-color: #e0e0e0;
+        }
+
+        #next-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #next-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <div class="question-container">
+        <h1>Simulado do DETRAN</h1>
+        <div class="question">
+            <p id="question-text">Pergunta: Qual a cor do semáforo quando se refere a atenção?</p>
+            <ul id="answer-options">
+                <li><input type="radio" name="answer" value="a"> A) Amarelo</li>
+                <li><input type="radio" name="answer" value="b"> B) Verde</li>
+                <li><input type="radio" name="answer" value="c"> C) Vermelho</li>
+                <li><input type="radio" name="answer" value="c"> D) Azul</li>
+            </ul>
+            <button id="next-button">Próxima Pergunta</button>
+            <button id="show-results-button" style="display: none;">Mostrar Gabarito</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Qual a cor do semáforo quando se refere a atenção?",
+                answers: ["A) Amarelo", "B) Verde", "C) Vermelho", "D) Azul"],
+                correctAnswer: "A) Amarelo"
+            },
+            {
+                question: "Dirigir sem habilitação é considerado uma infração:",
+                answers: ["A) Grave", "B) Leve", "C) Gravíssima", "D) Média"],
+                correctAnswer: "C) Gravíssima"
+            },
+            {
+                question: "O condutor de veículo prestador de serviço de utilidade pública ao entrar em vias e áreas de pedestres deverá::",
+                answers: ["A) Buzinar para abrir caminho entre os pedestres;", "B) Dirigir normalmente por estar fazendo serviço de utilidade pública;", "C) Dirigir com velocidade reduzida prestando atenção aos pedestres à sua frente;", "D) Buzinar e ligar os faróis para abrir caminho."],
+                correctAnswer: "C) Dirigir com velocidade reduzida prestando atenção aos pedestres à sua frente;"
+            },
+            {
+                question: "A embreagem serve para:",
+                answers: ["A) O aclopamento ou desaclopamento do motor com a transmissão o que possibilita a fácil recombinação das engrenagens;", "B) Facilitar as frenagens;", "C) Nenhuma das alternativas;", "D) Aproveitamento das rotações e da força do motor."],
+                correctAnswer: "A) O aclopamento ou desaclopamento do motor com a transmissão o que possibilita a fácil recombinação das engrenagens;"
+            },
+            {
+                question: "Parar o veículo nas esquinas e a menos de cinco metros do bordo do alinhamento da via transversal. Ao cometer este ato o condutor poderá ser punido com:",
+                answers: ["A) Multa - Infração Média;", "B) Multa - Infração Leve;", "C) Multa - Infração Grave;", "D) Nenhuma das alternativas acima."],
+                correctAnswer: "A) Multa - Infração Média;"
+            },
+            {
+                question: "	Executar operação de retorno em locais proibidos pela sinalização acarretará ao condutor:",
+                answers: ["A) Multa - Infração Leve;", "B) Multa - Infração Grave;", "C) Multa- Infração Média", "D) Multa - Infração Gravíssima."],
+                correctAnswer: "D) Multa - Infração Gravíssima."
+            },
+            {
+                question: "Dirigir com CNH( Carteira Nacional de Habilitação) ou Permissão para Dirigir de categoria diferente da do veículo que esteja conduzindo será considerada uma:	:",
+                answers: ["A) Infração grave com multa e apreensão do veículo;", "B) Infração gravíssima retenção do veículo até o comparecimento de um condutor habilitado;", "C) Infração média com multa (duas vezes);", "D)  Infração grave com multa e apreensão da CNH."],
+                correctAnswer: "B) Infração gravíssima retenção do veículo até o comparecimento de um condutor habilitado;"
+            },
+            {
+                question: "A prestação dos exames para obtenção da Carteira Nacional de Habilitação só poderá ser requerida pelo candidato que seja alfabetizado e tenha completado:",
+                answers: ["A) 17 anos;", "B) 16 anos e com autorização dos pais;", "C) 16 anos;", "D) 18 anos."],
+                correctAnswer: "D) 18 anos."
+            },
+            {
+                question: "Não é equipamento obrigatório para motocicletas e motonetas:",
+                answers: ["A) Buzina;", "B) Velocimetro;", "C) Lanterna de freio na cor vermelha;", "D) Extintor."],
+                correctAnswer: "D) Extintor."
+            },
+            {
+                question: "A velocidade máxima permitida em vias de trânsito rápido onde não há sinalização é:",
+                answers: ["A) 30km/h;", "B) 80km/h;", "C) 60km/h;", "D) 90km/h."],
+                correctAnswer: "B) 80km/h;"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let correctAnswersCount = 0;
+
+        const questionText = document.getElementById('question-text');
+        const answerOptions = document.getElementById('answer-options');
+        const nextButton = document.getElementById('next-button');
+        const showResultsButton = document.getElementById('show-results-button');
+
+        function loadQuestion(questionIndex) {
+            const currentQuestion = questions[questionIndex];
+            questionText.textContent = `Pergunta: ${currentQuestion.question}`;
+            answerOptions.innerHTML = '';
+
+            currentQuestion.answers.forEach((answer, index) => {
+                const answerItem = document.createElement('li');
+                answerItem.innerHTML = `<input type="radio" name="answer" value="${index}"> ${answer}`;
+                answerOptions.appendChild(answerItem);
+            });
+        }
+
+        function checkAnswer() {
+            const selectedAnswerIndex = document.querySelector('input[name="answer"]:checked')?.value;
+            if (selectedAnswerIndex === undefined) {
+                return false;
+            }
+            questions[currentQuestionIndex].selectedAnswerIndex = parseInt(selectedAnswerIndex);
+            return parseInt(selectedAnswerIndex) === questions[currentQuestionIndex].correctAnswerIndex;
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (checkAnswer()) {
+                correctAnswersCount++;
+            }
+
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion(currentQuestionIndex);
+            } else {
+                questionText.textContent = 'Simulado concluído!';
+                answerOptions.innerHTML = '';
+                nextButton.style.display = 'none';
+                showResultsButton.style.display = 'block';
+            }
+        });
+
+        showResultsButton.addEventListener('click', () => {
+            questionText.textContent = 'Gabarito e Respostas';
+            answerOptions.innerHTML = '';
+
+            questions.forEach((question, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('question-result');
+                resultItem.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <p>Resposta Oficial: ${question.correctAnswer}</p>
+                    <p>Sua Resposta: ${question.answers[question.selectedAnswerIndex] || 'Não respondida'}</p>
+                    <hr>
+                `;
+                answerOptions.appendChild(resultItem);
+            });
+            const scoreText = document.createElement('p');
+            scoreText.textContent = `Pontuação: ${correctAnswersCount} de ${questions.length}`;
+            answerOptions.appendChild(scoreText);
+
+            showResultsButton.disabled = true;
+        });
+        questions.forEach(question => {
+            question.correctAnswerIndex = question.answers.indexOf(question.correctAnswer);
+        });
+        loadQuestion(currentQuestionIndex);
+    </script>
+</body>
+
+</html>
